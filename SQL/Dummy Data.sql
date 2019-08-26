@@ -1,0 +1,32 @@
+INSERT INTO grocery_list (grocery_list_name)
+VALUES ('list 1'),
+	   ('list 2'),
+	   ('list 3'),
+	   ('list 4'),
+	   ('list 5');
+
+INSERT INTO grocery_item (grocery_list_id, grocery_item_name, grocery_item_type)
+VALUES (1, 'Cheese', 'Dairy'),
+	   (1, 'Milk', 'Dairy'),
+	   (1, 'Ground Beef', 'Meat'),
+	   (1, 'Steak', 'Meat'),
+	   (1, 'Bread', 'Carbs'),
+	   (1, 'Pasta', 'Carbs'),
+	   (2, 'Cheese', NULL),
+	   (2, 'Milk', NULL),
+	   (2, 'Ground Beef', NULL),
+	   (2, 'Steak', NULL),
+	   (2, 'Bread', NULL),
+	   (2, 'Pasta', NULL),
+	   (3, 'Shaving Cream', 'Beauty'),
+	   (3, 'Razorblades', 'Beauty'),
+	   (3, 'Toothpaste', 'Personal Care'),
+	   (3, 'Mouthwash', 'Personal Care'),
+	   (3, 'Deoderant', 'Beauty'),
+	   (3, 'Shampoo', 'Personal Care'),
+	   (4, 'Shaving Cream', NULL),
+	   (4, 'Razorblades', NULL),
+	   (4, 'Toothpaste', NULL),
+	   (4, 'Mouthwash', NULL),
+	   (4, 'Deoderant', NULL),
+	   (4, 'Shampoo', NULL);
