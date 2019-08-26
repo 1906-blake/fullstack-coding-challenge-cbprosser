@@ -19,9 +19,9 @@ Create a GroceryList and GroceryItem JAVABEAN that is mapped to your db tables
 Make/implement 
 * GET /grocery-lists  to find all grocery lists  
 * POST /grocery-lists  to create a new grocery list
-* POST /grocery-lists/items   to add a new item to a grocery list
-* DELETE /grocery-lists/items/{itemId}   to remove an item from a grocery list
-* DELETE /grocery-lists to delete a grocery list
+* POST /grocery-lists/{id}/items   to add a new item to a grocery list
+* DELETE /grocery-lists/{id}/items/{itemId}   to remove an item from a grocery list
+* DELETE /grocery-lists/{id} to delete a grocery list
 * If you need to create additional enpoints you are welcome to
 ## Part 4 Implement your Presentation Layer *React*: 35 Points  
 Create a grocery list component with a table that contains all items in the grocery list with a form for adding a new item, there should also be an option next to each item that allows you to remove items. (20 of the poitns).  
