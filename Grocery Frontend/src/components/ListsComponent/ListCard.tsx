@@ -80,7 +80,7 @@ export default class ListCard extends Component<ListCardProps, ListCardState> {
                                             <CardText>{item.name}, {item.type}</CardText>
                                         </Col>
                                         <Col>
-                                            <Button className="border" color="dark" size="sm">Remove Item</Button>
+                                            <Button className="border p-0 pl-2 pr-2" color="dark" size="sm">Remove Item</Button>
                                         </Col>
                                     </Row>
                                 </CardBody>
