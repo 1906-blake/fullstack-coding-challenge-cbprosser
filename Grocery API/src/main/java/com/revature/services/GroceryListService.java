@@ -36,18 +36,18 @@ public class GroceryListService {
 	@Transactional
 	public void removeGroceryList(int id) {
 		GroceryList listToDelete = glRepo.getOne(id);
-		glRepo.delete(listToDelete);
+		glRepo.deleteAllItemsFromList(listToDelete.getId());
+		glRepo.deleteList(listToDelete.getId());
 	}
 
 	@Transactional
-	public GroceryList removeItemFromList(int id, int itemId) {
+	public void removeItemFromList(int id, int itemId) {
 		GroceryList listToDeleteFrom = glRepo.getOne(id);
 		for(int i = 0; i < listToDeleteFrom.getItems().size(); i++) {
 			if(listToDeleteFrom.getItems().get(i).getId() == itemId) {
-				listToDeleteFrom.getItems().remove(i);
+				glRepo.deleteItem(listToDeleteFrom.getItems().get(i).getId());
 				break;
 			}
 		}
-		return listToDeleteFrom;
 	}
 }

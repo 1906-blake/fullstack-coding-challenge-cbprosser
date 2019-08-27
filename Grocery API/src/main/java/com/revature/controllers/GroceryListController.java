@@ -43,7 +43,7 @@ public class GroceryListController {
     }
 
     @DeleteMapping("/{id}/items/{itemId}")
-    public GroceryList removeItemFromList(@PathVariable(name = "id") int id, @PathVariable(name = "itemId") int itemId) {
-        return glService.removeItemFromList(id, itemId);
+    public void removeItemFromList(@PathVariable(name = "id") int id, @PathVariable(name = "itemId") int itemId) {
+        glService.removeItemFromList(id, itemId);
     }
 }

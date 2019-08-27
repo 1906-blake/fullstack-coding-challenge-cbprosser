@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name = "grocery_list")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -31,6 +33,7 @@ public class GroceryList {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "grocery_list_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<GroceryItem> items;
 
     public GroceryList() {
