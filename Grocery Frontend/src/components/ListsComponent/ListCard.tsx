@@ -33,10 +33,19 @@ export default class ListCard extends Component<ListCardProps, ListCardState> {
         }
     }
 
-    submitItem = async (event: React.FormEvent) => {
+    submitItem = async (event: any) => {
         event.preventDefault();
+        event.currentTarget.reset();
         const resp = await groceryClient.post(`/grocery-lists/${this.props.list.id}/items`, new GroceryItem(0, this.state.inputItem, this.state.inputType));
         this.props.forceRender();
+        this.updateList();
+    }
+
+    removeItem = async (event: any) => {
+        const itemId = +event.currentTarget.getAttribute('id')
+        await groceryClient.delete(`/grocery-lists/${this.props.list.id}/items/${itemId}`)
+        this.props.forceRender();
+        this.updateList();
     }
 
     handleToggle = (event: React.MouseEvent) => {
@@ -57,11 +66,51 @@ export default class ListCard extends Component<ListCardProps, ListCardState> {
             inputType: event.target.value
         })
     }
-
-    componentDidMount = () => {
+    
+    updateList = () => {
         this.setState({
             list: this.props.list
         })
+    }
+
+    destroyCards = () => {
+        this.setState({
+            cards: []
+        })
+    }
+    
+    createCards = () => {
+        const cards = this.state.list.items!.map((item: GroceryItem) => {
+            return <Card key={item.id} className="mb-3" color="light">
+                <CardBody className="p-0 pl-3">
+                    <Row>
+                        <Col>
+                            <CardText className="">{item.name}, {item.type}</CardText>
+                        </Col>
+                        <Col className="d-flex justify-content-end">
+                            <Button id={`${item.id}`} className="border p-0 pl-2 pr-2" color="dark" size="sm" onClick={this.removeItem}>Remove Item</Button>
+                        </Col>
+                    </Row>
+                </CardBody>
+            </Card>
+        });
+        this.setState({
+            cards
+        })
+    }
+
+    componentDidUpdate = (prevProps: ListCardProps, prevState: ListCardState) => {
+        if(this.props.list.items !== prevProps.list.items) {
+            this.createCards();
+        }
+    }
+
+    componentWillMount = () => {
+        this.updateList();
+    }
+
+    componentDidMount = () => {
+        this.createCards();
     }
 
     render() {
@@ -72,20 +121,7 @@ export default class ListCard extends Component<ListCardProps, ListCardState> {
                 </CardHeader>
                 <Collapse isOpen={this.state.isOpen}>
                     <CardBody>
-                        {this.state.list.items && this.state.list.items.map((item: GroceryItem) => {
-                            return <Card className="mb-3" color="light">
-                                <CardBody className="p-0 pl-3 pb-1">
-                                    <Row>
-                                        <Col>
-                                            <CardText>{item.name}, {item.type}</CardText>
-                                        </Col>
-                                        <Col>
-                                            <Button className="border p-0 pl-2 pr-2" color="dark" size="sm">Remove Item</Button>
-                                        </Col>
-                                    </Row>
-                                </CardBody>
-                            </Card>
-                        })}
+                        {this.state.cards}
                         <Form onSubmit={this.submitItem}>
                             <InputGroup size="sm">
                                 <Input className="bg-dark text-light" type="text" placeholder="Item" onChange={this.changeItem} />

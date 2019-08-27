@@ -7,6 +7,7 @@ import ListCard from './ListCard';
 interface ListsComponentState {
     lists: GroceryList[]
     render: boolean
+    cards: any[]
 }
 
 export default class ListsComponent extends Component<{}, ListsComponentState> {
@@ -15,7 +16,8 @@ export default class ListsComponent extends Component<{}, ListsComponentState> {
 
         this.state = {
             lists: [],
-            render: false
+            render: false,
+            cards:[]
         }
     }
 
@@ -32,13 +34,31 @@ export default class ListsComponent extends Component<{}, ListsComponentState> {
         })
     }
 
-    componentDidUpdate = async () => {
-        if(this.state.render) {
-            const resp = await groceryClient.get('/grocery-lists');
+    destroyCards = () => {
         this.setState({
-            lists: resp.data,
-            render: false
+            cards: []
         })
+    }
+
+    createCards = () => {
+        const cards = this.state.lists.map((list: GroceryList) => {
+            return <ListCard list={list} forceRender={this.toggleRender} />
+        })
+        this.setState({
+            cards
+        })
+    }
+
+    componentDidUpdate = async (prevProps: any, prevState: ListsComponentState) => {
+        if (this.state.render) {
+            const resp = await groceryClient.get('/grocery-lists');
+            this.setState({
+                lists: resp.data,
+                render: false
+            })
+        }
+        if (this.state.lists !== prevState.lists) {
+            this.createCards();
         }
     }
 
@@ -49,9 +69,7 @@ export default class ListsComponent extends Component<{}, ListsComponentState> {
                     Current Lists
                 </CardHeader>
                 <CardBody>
-                    {this.state.lists.map((list: GroceryList) => {
-                        return <ListCard list={list} forceRender={this.toggleRender} />
-                    })}
+                    {this.state.cards}
                 </CardBody>
             </Card>
         )
